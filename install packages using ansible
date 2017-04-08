@@ -1,0 +1,31 @@
+Ansible is a perfect automation tool to install packages on numerious clients
+install package 
+
+Make sure the particular user has sudo rights on client machine
+
+which no passord parameters
+/etc/sudoers
+#Ansible user
+ansible ALL=NOPASSWD: ALL
+
+just fire a command from master 
+
+[ansible@host-master ~]$ ansible web -m yum -a "name=nmap state=present" -s
+ Switch description
+ -a     this is to call module to install
+ -s     to get the task done by sudo user
+ -m     module name execution " Here its yum module in example"
+ 
+ 
+ ***************************************************
+  OUTPUT:
+ ***************************************************
+ 
+ 192.168.1.30 | SUCCESS => {
+    "changed": true,
+    "msg": "warning: rpmts_HdrFromFdno: Header V3 RSA/SHA1 Signature, key ID c105b9de: NOKEY\nImporting GPG key 0xC105B9DE:\n Userid : CentOS-6 Key (CentOS 6 Official Signing Key) <centos-6-key@centos.org>\n Package: centos-release-6-8.el6.centos.12.3.x86_64 (@anaconda-CentOS-201605220104.x86_64/6.8)\n From   : /etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6\n",
+    "rc": 0,
+    "results": [
+        "Loaded plugins: fastestmirror, security\nSetting up Install Process\nDetermining fastest mirrors\n * base: centos.excellmedia.net\n * extras: centos.excellmedia.net\n * updates: centos.excellmedia.net\nResolving Dependencies\n--> Running transaction check\n---> Package nmap.x86_64 2:5.51-6.el6 will be installed\n--> Finished Dependency Resolution\n\nDependencies Resolved\n\n================================================================================\n Package        Arch             Version                   Repository      Size\n================================================================================\nInstalling:\n nmap           x86_64           2:5.51-6.el6              base           2.8 M\n\nTransaction Summary\n================================================================================\nInstall       1 Package(s)\n\nTotal download size: 2.8 M\nInstalled size: 9.7 M\nDownloading Packages:\nRetrieving key from file:///etc/pki/rpm-gpg/RPM-GPG-KEY-CentOS-6\nRunning rpm_check_debug\nRunning Transaction Test\nTransaction Test Succeeded\nRunning Transaction\n\r  Installing : 2:nmap-5.51-6.el6.x86_64                                     1/1 \n\r  Verifying  : 2:nmap-5.51-6.el6.x86_64                                     1/1 \n\nInstalled:\n  nmap.x86_64 2:5.51-6.el6                                                      \n\nComplete!\n"
+    ]
+}
