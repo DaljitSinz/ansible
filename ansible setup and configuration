@@ -1,0 +1,79 @@
+Create one user on master
+
+install ansible
+
+Repo for ansible 
+
+For RHEL/CentOS 7 64-Bit
+# wget http://dl.fedoraproject.org/pub/epel/7/x86_64/e/epel-release-7-9.noarch.rpm
+# rpm -ivh epel-release-7-9.noarch.rpm
+
+For RHEL/CentOS 6 64-Bit
+# wget http://download.fedoraproject.org/pub/epel/6/x86_64/epel-release-6-8.noarch.rpm
+# rpm -ivh epel-release-6-8.noarch.rpm
+
+yum install ansible -y
+
+create key while login into same user
+
+#su - ansible
+
+create ssh key
+#ssh-keygen -t rsa
+
+Copy the keys the clients
+
+it is assumed the you have same user named ansible in your client machine
+
+ssh-copy-id ansible@X.X.X.a
+ssh-copy-id ansible@X.X.X.b
+ssh-copy-id ansible@X.X.X.c
+
+these above could be multiple clients.
+
+I update the below script in future to add all the key in multiple clients.
+####################################################################
+#!/bin/bash
+for ip in `cat ~/inventory`; do
+    ssh-copy-id -i ~/.ssh/id_rsa.pub $ip
+done
+####################################################################
+
+Now create the inventory file of ansible hosts 
+
+sudo vim /etc/ansible/hosts
+
+you can catagorise the list of hosts
+
+[web]
+x.x.x.a
+x.x.x.b
+
+[app]
+x.x.x.e
+x.x.x.f
+
+now after saving the file hit the command using ansible modules
+
+like ping
+
+by entering category name defined in /etc/ansible/hosts file:
+
+ansible -m ping <category>
+[ansible@host-master ~]$ ansible -m ping app
+192.168.1.22 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+192.168.1.21 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+[ansible@host-master ~]$ ansible -m ping web
+192.168.1.30 | SUCCESS => {
+    "changed": false,
+    "ping": "pong"
+}
+
+
+Please comment if you have any query in this basic steps.
